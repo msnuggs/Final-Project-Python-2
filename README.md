@@ -5000,17 +5000,209 @@ aligner.score(target, query, strand = "+")
 ```
 
 # Challenge 
+```python
+from Bio.Blast import NCBIWWW
+```
+
+
+```python
+NCBIWWW.email = "madeline.snuggs@gmail.com"
+```
+
+
+```python
+result_handle = NCBIWWW.qblast("blastn", "nt", "4436")
+```
+
+
+```python
+from Bio.Blast import NCBIXML
+```
+
+
+```python
+result_handle = open("gene.fna")
+```
+
+
+```python
+blast_record = NCBIXML.read(result_handle)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    ValueError                                Traceback (most recent call last)
+
+    <ipython-input-17-78f787b795c5> in <module>
+    ----> 1 blast_record = NCBIXML.read(result_handle)
+    
+
+    ~/anaconda3/lib/python3.7/site-packages/Bio/Blast/NCBIXML.py in read(handle, debug)
+        746     iterator = parse(handle, debug)
+        747     try:
+    --> 748         record = next(iterator)
+        749     except StopIteration:
+        750         raise ValueError("No records found in handle") from None
+
+
+    ~/anaconda3/lib/python3.7/site-packages/Bio/Blast/NCBIXML.py in parse(handle, debug)
+        804             raise ValueError(
+        805                 "Your XML file did not start with %r... but instead %r"
+    --> 806                 % (XML_START, text[:20])
+        807             )
+        808 
+
+
+    ValueError: Your XML file did not start with '<?xml'... but instead 'CCTTGGGCCAGTCATGGACG'
 
 
 
+```python
+E_VALUE_THRESH = 0.04
+```
+
+
+```python
+for alignment in blast_record.alignments:
+    for hsp in alignment.hsps:
+        if hsp.expect < E_VALUE_THRESH:
+            print("****ALIGHTMENT****")
+            print("sequence:", alignment.title)
+            print("length:", alignment.length)
+            print("e value:", hsp.expect)
+            print(hsp.query[0:75] + "...")
+            print(hsp.match[0:75] + "...")
+            print(hsp.sbjct[0:75] + "...")
+```
 
 # Blast 
+```python
+from Bio.Blast import NCBIWWW
+```
+
+
+```python
+NCBIWWW.email = "madeline.snuggs@gmail.com"
+```
+
+
+```python
+result_handle = NCBIWWW.qblast("blastn", "nt", "8332116") 
+```
+
+
+```python
+ # https://github.com/biopython/biopython/blob/master/Doc/examples/m_cold.fasta
+```
+
+
+```python
+from Bio import SeqIO
+```
+
+
+```python
+record = SeqIO.read("m_cold.fasta.txt", format = "fasta")
+```
+
+
+```python
+print(record)
+```
+
+    ID: gi|8332116|gb|BE037100.1|BE037100
+    Name: gi|8332116|gb|BE037100.1|BE037100
+    Description: gi|8332116|gb|BE037100.1|BE037100 MP14H09 MP Mesembryanthemum crystallinum cDNA 5' similar to cold acclimation protein, mRNA sequence
+    Number of features: 0
+    Seq('CACTAGTACTCGAGCGTNCTGCACCAATTCGGCACGAGCAAGTGACTACGTTNT...TTC')
 
 
 
+```python
+result_handle = NCBIWWW.qblast("blastn", "nt", record.seq)
+```
+
+
+```python
+with open("m_cold.fasta.txt", "w") as out_handle:
+    out_handle.write(result_handle.read())
+result_handle.close()
+```
+
+
+```python
+from Bio.Blast import NCBIXML
+```
+
+
+```python
+result_handle = open("my_blast.xml")
+```
+
+
+    ---------------------------------------------------------------------------
+
+    FileNotFoundError                         Traceback (most recent call last)
+
+    <ipython-input-12-5d5d42105f61> in <module>
+    ----> 1 result_handle = open("my_blast.xml")
+    
+
+    FileNotFoundError: [Errno 2] No such file or directory: 'my_blast.xml'
 
 
 
+```python
+blast_record = NCBIXML.read(result_handle)
+```
+
+
+    ---------------------------------------------------------------------------
+
+    ValueError                                Traceback (most recent call last)
+
+    <ipython-input-13-78f787b795c5> in <module>
+    ----> 1 blast_record = NCBIXML.read(result_handle)
+    
+
+    ~/anaconda3/lib/python3.7/site-packages/Bio/Blast/NCBIXML.py in read(handle, debug)
+        746     iterator = parse(handle, debug)
+        747     try:
+    --> 748         record = next(iterator)
+        749     except StopIteration:
+        750         raise ValueError("No records found in handle") from None
+
+
+    ~/anaconda3/lib/python3.7/site-packages/Bio/Blast/NCBIXML.py in parse(handle, debug)
+        787 
+        788     pending = ""
+    --> 789     text = handle.read(BLOCK)
+        790     if isinstance(text, bytes):
+        791         # Not a text handle, raw bytes mode
+
+
+    ValueError: I/O operation on closed file
+
+
+
+```python
+E_VALUE_THRESH = 0.04
+```
+
+
+```python
+for alignment in blast_record.alignments:
+    for hsp in alignment.hsps:
+        if hsp.expect < E_VALUE_THRESH:
+            print("****ALIGHTMENT****")
+            print("sequence:", alignment.title)
+            print("length:", alignment.length)
+            print("e value:", hsp.expect)
+            print(hsp.query[0:75] + "...")
+            print(hsp.match[0:75] + "...")
+            print(hsp.sbjct[0:75] + "...")
+```
 
 # Open CV Basics
 ```python
